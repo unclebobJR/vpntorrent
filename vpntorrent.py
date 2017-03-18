@@ -9,6 +9,6 @@ wake_up(config.nas_ip, config.nas_mac)
 
 mount_all(config.target_dir)
 
-new_vpn_tunnel(config.vpn_tunnel)
+new_vpn_tunnel(config.vpn_tunnel, config.home_ip)
 
 service('start', config.torrentproces)
