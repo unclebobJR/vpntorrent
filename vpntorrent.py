@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import config
 from utils import service, wake_up, mount_all, new_vpn_tunnel
 
