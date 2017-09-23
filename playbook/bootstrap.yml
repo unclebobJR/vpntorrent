@@ -2,7 +2,6 @@
   become: true
 
   roles:
-    - raspbian_bootstrap
 
   vars:
     ansible_user: "pi"
