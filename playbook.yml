@@ -1,0 +1,59 @@
+---
+
+- hosts: localhost
+  gather_facts: no
+
+  vars_files:
+      - "vars/vars.yml"
+
+  tasks:
+    - name: get my localhost public IP
+      ipify_facts:
+        timeout: 20
+        api_url: "http://ifconfig.io/all.json"
+
+    - name: Send magic Wake-On-Lan packet to turn on individual systems
+      wakeonlan:
+        mac: "{{ nas_mac_address }}"
+
+    - name: Wait for system to become reachable
+      wait_for_connection:
+      delegate_to: pluisje
+
+- hosts: raspberrypi
+  become: yes
+  gather_facts: no
+
+  vars: 
+    - install: True
+
+  vars_files:
+    - "vars/secrets.yml"
+    - "vars/vars.yml"
+
+  tasks:
+    - name: installing, updating packages, and stopping services
+      include_tasks: tasks/install.yml
+      when: install == True
+
+    - name: get my public IP
+      ipify_facts:
+      register: remote_external_ip
+
+    - name: config and start openvpn
+      include_tasks: tasks/openvpn.yml
+      when: hostvars['localhost'].ipify_public_ip == hostvars['raspberrypi'].ipify_public_ip
+      failed_when: hostvars['localhost'].ipify_public_ip != hostvars['raspberrypi'].ipify_public_ip
+
+    - name: Mount to nas drive
+      mount:
+        path: "{{ mount_point }}"
+        src: "{{ mount_src }}"
+        fstype: "{{ mount_type }}"
+        opts: "{{ mount_opts }}"
+        state: mounted
+
+    - name: Start qbittorrent
+      service:
+        name: "qbittorrent"
+        state: started

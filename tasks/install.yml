@@ -1,0 +1,30 @@
+---
+
+  - name: Install the package "qbittorrent"
+    apt:
+      name: qbittorrent
+      state: present
+  - name: Install the package "openvpn"
+    apt:
+      name: openvpn
+      state: present
+  - name: Install the package "iptables"
+    apt:
+      name: iptables
+      state: present  
+
+  - name: Upgrade all
+    apt:
+      cache_valid_time: 3600
+      name: "*"
+      state: latest
+
+  - name: Stop openvpn
+    service:
+      name: "openvpn@{{ openvpn_config }}"
+      state: stopped
+
+  - name: Stop qbittorrent
+    service:
+      name: qbittorrent
+      state: stopped

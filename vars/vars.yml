@@ -1,0 +1,19 @@
+---
+
+src_tmpl: "templates"
+openvpn_dir: "/etc/openvpn"
+openvpn_config: "nl"
+openvpn_config_path: "{{ openvpn_dir }}/{{ openvpn_config }}.conf"
+openvpn_keydir: "{{ openvpn_dir }}/keys"
+openvpn_userdata_path: "{{ openvpn_keydir }}/userpass.data"
+openvpn_routeup_path: "{{ openvpn_dir }}/route_up.sh"
+openvpn_routedown_path: "{{ openvpn_dir }}/route_down.sh"
+openvpn_ca_path: "{{ openvpn_keydir }}/{{ openvpn_ca }}"
+openvpn_crl_path: "{{ openvpn_keydir }}/{{ openvpn_crl }}"
+
+nas_mac_address: "00:11:32:5b:95:5f"
+mount_point: "/mnt/transmission"
+mount_src: "pluisje:/volume1/transmission"
+mount_type: "nfs"
+mount_opts: "defaults,vers=3,users"
+

@@ -1,0 +1,69 @@
+---
+
+  - debug:
+      var: hostvars['raspberrypi'].ipify_public_ip
+
+  - name: create openvpn dir
+    file: 
+      path: "{{ openvpn_dir }}" 
+      state: directory 
+      mode: 0755 
+      owner: root 
+      group: root
+  - name: create openvpn keys dir
+    file: 
+      path: "{{ openvpn_keydir }}" 
+      state: directory 
+      mode: 0700 
+      owner: root 
+      group: root
+  - name: copy crl-verify
+    copy: 
+      src: "{{ src_tmpl }}/{{ openvpn_crl }}" 
+      dest: "{{ openvpn_crl_path }}" 
+      owner: root 
+      group: root 
+      mode: 0500
+  - name: copy ca
+    copy: 
+      src: "{{ src_tmpl }}/{{ openvpn_ca }}" 
+      dest: "{{ openvpn_ca_path }}" 
+      owner: root 
+      group: root 
+      mode: 0500
+  - name: Create nl ovpn script 
+    template:
+      src: "{{ src_tmpl }}/nl_ovpn.j2"
+      dest: "{{ openvpn_config_path }}"
+      owner: root
+      group: root
+      mode: "u=rw,g=r,o=r"
+  - name: Create route up script
+    template:
+      src: "{{ src_tmpl }}/up.j2"
+      dest: "{{ openvpn_routeup_path }}"
+      owner: root
+      group: root
+      mode: "u=rwx,g=r,o=r"
+  - name: Create route down script
+    template:
+      src: "{{ src_tmpl }}/down.j2"
+      dest: "{{ openvpn_routedown_path }}"
+      owner: root
+      group: root
+      mode: "u=rwx,g=r,o=r"
+  - name: Create userdata file
+    template:
+      src: "{{ src_tmpl }}/ovpn_user.j2"
+      dest: "{{ openvpn_userdata_path }}"
+      owner: root
+      group: root
+      mode: "0500"
+
+  - name: Start openvpn
+    service: 
+      name: "openvpn@{{ openvpn_config }}"
+      state: started 
+
+  - debug:
+      var: hostvars['raspberrypi'].ipify_public_ip
