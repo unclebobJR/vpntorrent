@@ -1,7 +1,25 @@
 # vpntorrent
 
-Torrenting through a vpn tunnel requires sometimes a complete restart of torrent programme and tunnel.
-This script make sure it is all fresh again.
+Torrenting through a vpn tunnel requires sometimes a complete restart of torrent programme and tunnel. This was the original reason, but has been expanded as learning project for Ansible. Therefore, there are two ways of establishing this: 
+* Via Ansible
+* Via the original script. This one is deprecated in favour of the Ansible way.
+
+# Ansible
+Using ansible configuration the pi will be updated and upgraded and openvpn and qbittorrent wille be installed and configured.
+
+## Pre-Requisites
+* NAS with mount source
+* Ansible > 2.\*
+* VPN CA and CRT files
+* Adjusted secrets and possibly vars files (examples can be found)
+* Adjust the hosts file
+
+## Usage
+ansible-playbook playbook.yml -i hosts
+
+
+# vpntorrent.py
+DEPRECATED using a python script
 
 ## Pre-Requisites
 * openVPN already setup and configured

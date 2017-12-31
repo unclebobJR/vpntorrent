@@ -65,5 +65,9 @@
       name: "openvpn@{{ openvpn_config }}"
       state: started 
 
+  - name: get my public IP
+    ipify_facts:
+    register: remote_external_ip 
+
   - debug:
       var: hostvars['raspberrypi'].ipify_public_ip

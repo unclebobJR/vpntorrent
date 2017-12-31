@@ -44,7 +44,10 @@
     - name: config and start openvpn
       include_tasks: tasks/openvpn.yml
       when: hostvars['localhost'].ipify_public_ip == hostvars['raspberrypi'].ipify_public_ip
-      failed_when: hostvars['localhost'].ipify_public_ip != hostvars['raspberrypi'].ipify_public_ip
+
+    - name: Check public Ips are different
+      fail:
+      when: hostvars['localhost'].ipify_public_ip == hostvars['raspberrypi'].ipify_public_ip
 
     - name: Mount to nas drive
       mount:
@@ -53,6 +56,27 @@
         fstype: "{{ mount_type }}"
         opts: "{{ mount_opts }}"
         state: mounted
+
+    - name: qbit system service config
+      template:
+        src: "{{ src_tmpl }}/qBittorrent_service.j2"
+        dest: /etc/systemd/system/qbittorent.service
+        backup: yes
+
+    - name: qbit config dir in home dir
+      file:
+        path: /home/pi/.config/qBittorrent
+        owner: pi
+        group: pi
+        state: directory
+
+    - name: qbit config
+      template:
+        src: "{{ src_tmpl }}/qBittorrent.j2"
+        dest: /home/pi/.config/qBittorrent/qBittorrent.conf
+        owner: pi
+        group: pi
+        backup: yes
 
     - name: Start qbittorrent
       service:
