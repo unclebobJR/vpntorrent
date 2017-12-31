@@ -11,6 +11,7 @@ openvpn_routedown_path: "{{ openvpn_dir }}/route_down.sh"
 openvpn_ca_path: "{{ openvpn_keydir }}/{{ openvpn_ca }}"
 openvpn_crl_path: "{{ openvpn_keydir }}/{{ openvpn_crl }}"
 
+# Data for mounting on the Pi
 mount_point: "/mnt/transmission"
 mount_src: "pluisje:/volume1/transmission"
 mount_type: "nfs"
