@@ -1,6 +1,6 @@
 [raspberry]
 raspberrypi ansible_user=pi
 
-[nas]
-pluisje
+[nas_group]
+nas ansible_host=pluisje
 
