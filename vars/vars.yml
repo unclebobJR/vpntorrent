@@ -11,7 +11,6 @@ openvpn_routedown_path: "{{ openvpn_dir }}/route_down.sh"
 openvpn_ca_path: "{{ openvpn_keydir }}/{{ openvpn_ca }}"
 openvpn_crl_path: "{{ openvpn_keydir }}/{{ openvpn_crl }}"
 
-nas_mac_address: "00:11:32:5b:95:5f"
 mount_point: "/mnt/transmission"
 mount_src: "pluisje:/volume1/transmission"
 mount_type: "nfs"
