@@ -1,1 +1,7 @@
-playbook.retry
+*.retry
+*.bak
+*.crt
+*.pem
+/.idea
+vars/secrets.yml
+*.swp
